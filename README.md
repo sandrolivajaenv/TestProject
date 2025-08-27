@@ -152,8 +152,13 @@ docker compose up --build
 - API → http://localhost:8080/swagger  
 - SQL Server → localhost:1433  
 
+This was not tested. I can't run docker on my machine as I'm currenctly prohibted from virtualization.
 ### Run locally (without Docker)
 1. Update `appsettings.Development.json` with a valid SQL connection string.  
+   "ConnectionStrings": {
+  "LocalConnection": "Server=(local);Database=PRODUCTS;TrustServerCertificate=True;MultipleActiveResultSets=True;Integrated Security=True;"
+}
+
 2. Run migrations:
    ```bash
    dotnet ef database update --project src/Infrastructure --startup-project src/API
@@ -163,6 +168,55 @@ docker compose up --build
    dotnet run --project src/API
    ```
 4. Open Swagger: https://localhost:5001/swagger  
+
+
+My whole appsettings file:
+{
+  "Serilog": {
+    "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft": "Warning",
+        "Microsoft.AspNetCore": "Warning",
+        "System": "Warning",
+        "Microsoft.EntityFrameworkCore.Database.Command": "Warning"
+      }
+    },
+    "Enrich": [ "FromLogContext", "WithMachineName", "WithProcessId", "WithThreadId" ],
+    "Properties": {
+      "Application": "ProductsAPI"
+    },
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "formatter": "Serilog.Formatting.Compact.RenderedCompactJsonFormatter, Serilog.Formatting.Compact"
+        }
+      },
+      {
+        "Name": "File",
+        "Args": {
+          "path": "logs/apiLogs.ndjson",
+          "rollingInterval": "Day",
+          "shared": true
+        }
+      }
+    ]
+  },
+  "Logging": { "LogLevel": { "Default": "Information" } },
+  "AllowedHosts": "*",
+  "Jwt": {
+    "Key": "467ef0eb-9bb9-4de6-b161-7e7c21c8bfbc",
+    "Issuer": "ProductsApi",
+    "Audience": "ProductsApiUsers",
+    "ExpireMinutes": 30
+  },
+  "ConnectionStrings": {
+    "LocalConnection": "Server=(local);Database=PRODUCTS;TrustServerCertificate=True;MultipleActiveResultSets=True;Integrated Security=True;"
+  }
+
+}
 
 ---
 
