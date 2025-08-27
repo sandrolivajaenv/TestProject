@@ -155,10 +155,11 @@ docker compose up --build
 This was not tested. I can't run docker on my machine as I'm currenctly prohibted from virtualization.
 ### Run locally (without Docker)
 1. Update `appsettings.Development.json` with a valid SQL connection string.  
+ ```
    "ConnectionStrings": {
   "LocalConnection": "Server=(local);Database=PRODUCTS;TrustServerCertificate=True;MultipleActiveResultSets=True;Integrated Security=True;"
 }
-
+ ```
 2. Run migrations:
    ```bash
    dotnet ef database update --project src/Infrastructure --startup-project src/API
@@ -171,6 +172,7 @@ This was not tested. I can't run docker on my machine as I'm currenctly prohibte
 
 
 My whole appsettings file:
+ ```
 {
   "Serilog": {
     "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],
@@ -217,7 +219,7 @@ My whole appsettings file:
   }
 
 }
-
+ ```
 ---
 
 ## Deployment
