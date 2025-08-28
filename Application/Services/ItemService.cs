@@ -3,9 +3,6 @@ using Application.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Exceptions;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Services;
 
@@ -17,7 +14,7 @@ public class ItemService(
 {
     public async Task<IEnumerable<ItemReadDto>> GetByProductAsync(int productId, CancellationToken ct = default)
     {
-        // ensure parent exists (optional fast-fail; comment out if you prefer empty list when missing)
+        // ensure parent exists 
         if (await productRepo.GetByIdAsync(productId, ct) is null)
             throw new NotFound(nameof(Product), productId);
 
@@ -35,7 +32,7 @@ public class ItemService(
 
     public async Task<int> CreateAsync(int productId, ItemCreateDto dto, CancellationToken ct = default)
     {
-        // make sure the FK target exists to return 404 instead of a DB FK error
+        // make sure the FK target exists r
         if (await productRepo.GetByIdAsync(productId, ct) is null)
             throw new NotFound(nameof(Product), productId);
 

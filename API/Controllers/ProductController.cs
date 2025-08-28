@@ -1,9 +1,7 @@
 using API.Filters;
-using API.Idempotency;
 using Application.DTOs;
 using Application.Services;
 using Asp.Versioning;
-using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
